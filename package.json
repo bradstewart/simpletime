@@ -1,0 +1,15 @@
+{
+  "name": "simpletime",
+  "version": "0.0.1",
+  "description": "Dead simple time tracking.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brad Stewart",
+  "license": "MIT",
+  "dependencies": {
+    "electron-prebuilt": "0.36.1",
+    "menubar": "3.0.0"
+  }
+}
