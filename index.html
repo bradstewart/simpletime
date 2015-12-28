@@ -3,13 +3,92 @@
   <head>
     <meta charset="utf-8">
     <title>Simple Time</title>
+    
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./assets/app.css">
 
-    <script src="index.js"></script>
+    <script>
+      // Load jQuery and ensure it is exported to the global window.
+      window.jQuery = window.$ = require('jquery') 
+    </script>
+
   </head>
 
   <body>
-    <div id="app">
-      <h1> Hello World </h1>
+    <script id="appTemplate" type="text/template">
+      <div class="text-center">
+
+        <div class="row-fluid" style="padding-bottom: 20px;">
+          <h1> Simple Time </h1>
+        </div>
+
+        <div class="row-fluid">
+          <template v-if="activeView === 'home'">
+            <form v-on:submit.prevent="save" class="form-inline"> 
+              <div class="form-group">
+                <textarea 
+                  v-model="content" 
+                  v-bind:maxlength="maxLength" 
+                  class="form-control" 
+                  placeholder="What did you do?">
+                </textarea>
+                <p class="help-block"> {{ maxLength - content.length }} characters remaining.</p>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+          </template>
+
+          <template v-if="activeView === 'history'">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th> Date </th> 
+                    <th> Content </th> 
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="entry in entries">
+                    <td> {{ entry.timestamp | date }} </td> 
+                    <td> {{ entry.content }} </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </template>
+
+          <template v-if="activeView === 'preferences'">
+            <h1> TODO </h1>
+          </template> 
+        </div>
+
+    
+        <div class="row-fluid" style="margin-top: 30px; border-top: 1px solid #f5f5f5">
+          <ul class="nav nav-pills" style="padding: 5px">
+            <li v-bind:class="{ 'active': activeView === 'home' }">
+              <a v-on:click="activeView = 'home'"> 
+                Home
+              </a> 
+            </li>
+            <li v-bind:class="{ 'active': activeView === 'history' }">
+              <a v-on:click="activeView = 'history'"> 
+                History <span class="badge">{{ entries.length }}</span>
+              </a> 
+            </li>
+            <li v-bind:class="{ 'active': activeView === 'preferences' }">
+              <a v-on:click="activeView = 'preferences'"> Preferences </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </script>
+
+    <div class="container vertical-center">
+      <div id="app"></div>
     </div>
+
+    <script src="./app.js"></script>
   </body>
 </html>
